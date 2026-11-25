@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Como Usar — Studio Criador de Props 3D | Hari-Deverlopmente</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020203;
+      --surface: #07070a;
+      --card: linear-gradient(145deg, #0e0e13 0%, #050507 100%);
+      --sheen: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 45%, rgba(0,0,0,0.35) 100%);
+      --border: #191922;
+      --border-light: #2a2a36;
+      --text: #f5f5f7;
+      --dim: #a1a1aa;
+      --muted: #71717a;
+      --accent: #e4e4e7;
+      --purple: #a855f7;
+      --highlight: inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(900px 500px at 15% -10%, rgba(168, 85, 247, 0.12), transparent 60%),
+        radial-gradient(800px 450px at 85% 0%, rgba(255, 255, 255, 0.05), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--sheen), rgba(4, 4, 6, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--highlight), 0 8px 30px rgba(0, 0, 0, 0.8);
+    }
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.3px;
+    }
+    .brand-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #e9d5ff;
+    }
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+      border-color: var(--border-light);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 38px 32px;
+      box-shadow: var(--highlight), 0 24px 60px rgba(0,0,0,0.85);
+      margin-bottom: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px 200px at 90% 10%, rgba(168,85,247,0.14), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--dim);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-light);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--dim);
+      max-width: 720px;
+      font-size: 15px;
+      margin-bottom: 22px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .stat-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .stat-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-lbl {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    /* Section Headings */
+    .section {
+      margin-top: 42px;
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: #f4f4f5;
+      color: #050507;
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--highlight), 0 12px 30px rgba(0,0,0,0.6);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+    }
+    .card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card p, .card li {
+      font-size: 13px;
+      color: var(--dim);
+    }
+    .card ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* Code / Kbd */
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-light);
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: #f4f4f5;
+    }
+    kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: #14141a;
+      border: 1px solid #323240;
+      border-bottom-width: 2px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    /* Code Block with Copy */
+    .code-box {
+      position: relative;
+      background: #040406;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      color: #e4e4e7;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+    .btn-copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #181820;
+      border: 1px solid var(--border-light);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: #272732;
+    }
+
+    /* Filterable Tools Table */
+    .search-input {
+      background: #060609;
+      border: 1px solid var(--border-light);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      width: 260px;
+      max-width: 100%;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--purple); }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .tool-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .tool-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .tool-desc {
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    /* Accordion FAQ */
+    details.faq {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    details.faq summary {
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq[open] summary {
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+    .faq-body {
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 56px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span>Studio Criador de Props 3D</span>
+        <span class="brand-tag">HARI-DEVERLOPMENTE</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#instalacao">Instalação</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#recorte">Recorte &amp; Texto</a>
+        <a href="#fivem">Exportar FiveM</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-eyebrow">Manual Oficial · Edição Black Piano</div>
+      <h1>Como Usar o Studio Criador de Props 3D</h1>
+      <p>
+        Guia completo para transformar qualquer logo, imagem ou letreiro em um prop 3D pronto para o FiveM
+        (<code>.ydr</code> + <code>.ytyp</code> + <code>client.lua</code> opcional), com bordas falsas, suportes estruturais e rotação 360°.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-num">25+</div>
+          <div class="stat-lbl">Modelos de Props 3D</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">21</div>
+          <div class="stat-lbl">Suportes Metálicos</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">24</div>
+          <div class="stat-lbl">Presets de Bordas</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">8</div>
+          <div class="stat-lbl">Fundos de Estúdio 3D</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 1: Instalação -->
+    <section class="section" id="instalacao">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">PASSO 1</span> Instalação e Execução</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>💿 Instalador no PC (Recomendado)</h3>
+          <p>Use o <code>Instalar Studio Criador de Props 3d.exe</code> para instalar no seu computador:</p>
+          <ul>
+            <li>Extrai todos os arquivos para <code>%LocalAppData%\Programs\Studio Criador de Props 3d</code>.</li>
+            <li>Cria atalho na <strong>Área de Trabalho</strong> e no <strong>Menu Iniciar</strong>.</li>
+            <li>Registra o software com autoria <strong>Hari-Deverlopmente</strong> no Windows.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🚀 Executável Portátil + Certificado</h3>
+          <p>O <code>Studio Criador de Props 3d.exe</code> também funciona sozinho em qualquer pasta:</p>
+          <ul>
+            <li>Ao abrir, inicia automaticamente em <strong>janela própria (NUI)</strong> maximizada, sem barra de navegador.</li>
+            <li>Requer <strong>Node.js LTS</strong> instalado no PC para o servidor local e compilação.</li>
+            <li>Para confiar no certificado local, instale <code>tools\Hari-Deverlopmente.cer</code> em <em>Autoridades de Certificação Raiz Confiáveis</em>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 2: Ferramentas e Atalhos -->
+    <section class="section" id="ferramentas">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">PASSO 2</span> Ferramentas da Viewport &amp; Atalhos</h2>
+        <input type="text" id="tool-search" class="search-input" placeholder="Filtrar ferramenta ou atalho..." />
+      </div>
+      <div class="tool-grid" id="tool-grid">
+        <div class="tool-item"><div class="tool-top"><span>Selecionar / Focar</span><kbd>Q</kbd></div><div class="tool-desc">Centraliza a câmera no prop 3D.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Mover (Eixos X/Y/Z)</span><kbd>G</kbd></div><div class="tool-desc">Ativa setas para posicionar o objeto no espaço.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Rotacionar 3D</span><kbd>R</kbd></div><div class="tool-desc">Ativa anéis para girar o prop livremente.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Escalar / Redimensionar</span><kbd>S</kbd></div><div class="tool-desc">Redimensiona o objeto nos eixos 3D.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Modo Wireframe</span><kbd>Z</kbd></div><div class="tool-desc">Mostra a malha aramada (triângulos) do modelo.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Caixa de Limite 3D</span><kbd>B</kbd></div><div class="tool-desc">Exibe o contorno exato (Bounding Box) do prop.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Grade &amp; Terreno</span><kbd>H</kbd></div><div class="tool-desc">Mostra ou oculta a grade do chão.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Girar 180°</span><kbd>F</kbd></div><div class="tool-desc">Inverte frente e verso rapidamente.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Texto 3D</span><kbd>T</kbd></div><div class="tool-desc">Abre o criador de letreiro personalizado.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Apoiar no Chão (Y=0)</span><span>⬇</span></div><div class="tool-desc">Alinha a base do prop exatamente no piso.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>8 Fundos de Estúdio</span><span>🎨</span></div><div class="tool-desc">Black Piano, Preto Puro, Cyber, Branco, Chroma Key e Terreno FiveM.</div></div>
+        <div class="tool-item"><div class="tool-top"><span>Render PNG</span><span>📷</span></div><div class="tool-desc">Salva uma captura em alta qualidade da viewport atual.</div></div>
+      </div>
+    </section>
+
+    <!-- Passo 3: Categorias do Painel Direito -->
+    <section class="section" id="categorias">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">PASSO 3</span> Abas de Categorias (Painel Direito)</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>🧩 Modelos</h3>
+          <p>25 formatos divididos em <strong>Placas &amp; Letreiros</strong> (Sem Fundo, Redonda, Fachada, Escudo, Totem, Vinewood), <strong>Formas Geométricas</strong> e <strong>Símbolos</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>🖼️ Imagem</h3>
+          <p>Arraste qualquer PNG/JPG/WEBP direto para a tela 3D, crie <strong>Texto 3D</strong>, ajuste o recorte de fundo e escolha a qualidade (Normal, Alta ou Ultra).</p>
+        </div>
+        <div class="card">
+          <h3>✨ Bordas</h3>
+          <p>Desativada por padrão. Ative quando quiser usar <strong>Borda Falsa 3D</strong>, Camadas, Relevo 4 Níveis, Dupla Extrusão, Neon 3D ou 24 presets prontos.</p>
+        </div>
+        <div class="card">
+          <h3>🏗️ Suportes</h3>
+          <p>21 estruturas metálicas organizadas em <strong>Chão &amp; Totens</strong>, <strong>Treliças &amp; Pórticos</strong> e <strong>Parede, Teto &amp; Molduras</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>📐 Tamanho</h3>
+          <p>Ajuste preciso de Largura (X), Altura (Y), Espessura 3D e Posição Frente/Trás (Z) em metros.</p>
+        </div>
+        <div class="card">
+          <h3>🎛️ Material, Luz &amp; Câmera</h3>
+          <p>Controle Metalicidade, Rugosidade, Emissão Neon, Iluminação dia/noite e <strong>Rotação 360° (Turntable)</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 4: Recorte e Texto 3D -->
+    <section class="section" id="recorte">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">PASSO 4</span> Recorte de Fundo &amp; Letreiro 3D</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>✂️ Recorte Inteligente</h3>
+          <ul>
+            <li><strong>Detecção Automática:</strong> reconhece transparência PNG ou remove fundo branco/preto exterior preservando detalhes internos.</li>
+            <li><strong>Chroma Personalizado:</strong> escolha qualquer cor de fundo no conta-gotas para remover.</li>
+            <li><strong>Sensibilidade:</strong> use os botões rápidos <code>Fino (15)</code>, <code>Padrão (35)</code>, <code>Médio (75)</code> ou <code>Forte (130)</code>.</li>
+            <li><strong>Limpeza de Halo (<code>-4</code> a <code>+8 px</code>):</strong> valores negativos eliminam bordas brancas/pretas residuais.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🔤 Criador de Texto 3D</h3>
+          <ul>
+            <li>Pressione <kbd>T</kbd> ou clique em <strong>Texto 3D (T)</strong> na aba Imagem.</li>
+            <li>Escolha entre dezenas de fontes (Táticas, Cursivas, Luxo, Cyberpunk, Grafite).</li>
+            <li>Adicione linha 1 + subtítulo, contorno, espaçamento e gere o letreiro 3D sem fundo na hora.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Passo 5: Exportar para FiveM -->
+    <section class="section" id="fivem">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">PASSO 5</span> Exportação &amp; Instalação no FiveM</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>📦 Definindo o Nome &amp; Exportando</h3>
+          <ul>
+            <li>Acesse a aba <strong>Exportar</strong> no topo do painel direito.</li>
+            <li>Digite o <strong>Nome de Saída</strong> (ex: <code>prop_minha_loja</code>) e marque <strong>Colisão física (YTYP)</strong> se necessário.</li>
+            <li>Se quiser que o prop gire 360° dentro do jogo, ative <strong>Giro Automático 360°</strong> na aba <strong>Luz</strong> antes de exportar — o <code>client.lua</code> irá junto no <code>.zip</code>.</li>
+            <li>Clique em <strong>Exportar para FiveM</strong> para baixar o resource compilado.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🖥️ Colocando no Servidor FiveM</h3>
+          <p>Extraia a pasta de dentro do <code>.zip</code> para a pasta <code>resources</code> do seu servidor e adicione no <code>server.cfg</code>:</p>
+          <div class="code-box">
+            <button class="btn-copy" onclick="copyCfg(this)">Copiar</button>
+            <pre id="cfg-snippet">ensure prop_minha_loja</pre>
+          </div>
+          <p style="margin-top:10px;">Depois reinicie o servidor ou execute <code>refresh</code> e <code>ensure prop_minha_loja</code> no console. O prop já aparece pronto no CodeWalker, vMenu ou scripts de mapa.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-head">
+        <h2 class="section-title"><span class="step-badge">DÚVIDAS</span> Perguntas Frequentes</h2>
+      </div>
+      <details class="faq" open>
+        <summary>Posso arrastar a imagem direto para a tela 3D?</summary>
+        <div class="faq-body">Sim! Basta arrastar qualquer arquivo PNG, JPG ou WEBP direto para cima da área 3D principal que o modelo já é gerado automaticamente.</div>
+      </details>
+      <details class="faq">
+        <summary>Por que a borda falsa vem desativada?</summary>
+        <div class="faq-body">Para manter sua logo limpa por padrão. Caso queira adicionar borda falsa 3D, relevo ou neon atrás da logo, basta ir na aba <strong>Bordas</strong> e marcar <em>Ativar Borda no Prop</em>.</div>
+      </details>
+      <details class="faq">
+        <summary>A rotação 360° funciona dentro do FiveM?</summary>
+        <div class="faq-body">Sim! Quando você ativa o <strong>Giro Automático 360°</strong> na aba <strong>Luz</strong> (ou no botão da barra superior) e exporta, o servidor gera automaticamente o <code>client.lua</code> e inclui no <code>fxmanifest.lua</code> para girar o prop no eixo Z dentro do jogo.</div>
+      </details>
+    </section>
+
+    <footer>
+      <span>Studio Criador de Props 3D · Manual de Uso</span>
+      <span>Autoria: <strong style="color:#fff;">Hari-Deverlopmente</strong></span>
+    </footer>
+  </main>
+
+  <script>
+    const searchInput = document.getElementById('tool-search');
+    const items = Array.from(document.querySelectorAll('#tool-grid .tool-item'));
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        items.forEach((item) => {
+          item.style.display = item.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    function copyCfg(btn) {
+      const text = document.getElementById('cfg-snippet')?.textContent || '';
+      navigator.clipboard?.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copiado!';
+        setTimeout(() => { btn.textContent = orig; }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
